@@ -1,7 +1,7 @@
 ' **********************************************************************
-' * Script para mover e desabilitar contas de usu·rios inativas do AD  *
-' * Autor: Adriano Lima e Anderson Carvalho                                                *
-' * Esse script move as contas de usu·rios inativas por mais de 90 dias*
+' * Script para mover e desabilitar contas de usu√°rios inativas do AD  *
+' *                                                *
+' * Esse script move as contas de usu√°rios inativas por mais de 90 dias*
 ' * para a OU Contas inativas                                          *   
 ' * ********************************************************************
 
@@ -160,7 +160,7 @@ For k = 0 To Ubound(arrstrDCs)
 Next
 
 ' Output latest lastLogonTimestamp date for each user.
-objTextFile.WriteLine("Contas de Usu·rios desabilitadas e movidas : ")
+objTextFile.WriteLine("Contas de Usu√°rios desabilitadas e movidas : ")
 objTextFile.WriteLine(" ")
 
 For Each strUser In objList.Keys
@@ -169,20 +169,20 @@ For Each strUser In objList.Keys
    intReqCompare = Now - strDays 
    If (objList.Item(strUser) < intReqCompare)  Then 
 		TempLastLogonTimestamp = Trim(objList.Item(strUser))
-		' Recupera referÍncia ao objeto
+		' Recupera refer√™ncia ao objeto
 		strUser = "LDAP://" & struser
 		set objUser = GetObject(strUser)
 	
     	TempDtCreated = objUser.WhenCreated
 	    TempDtDelUser = Now () - TempDtCreated
-	    ' Move e desabilita as contas inativas por mais de 90 dias,que n„o est„o nas OUs Contas de servico ou Contas Inativas
+	    ' Move e desabilita as contas inativas por mais de 90 dias,que n√£o est√£o nas OUs Contas de servico ou Contas Inativas
 		If ((Now() - TempDtCreated) > 90 And instr(1,strUser,"OU=Contas de servico")=0 And instr(1,strUser,"OU=Contas Inativas")=0) Then			
 			objTextFile.WriteLine( strUser & " ; " & "Last Logon: " & TempLastLogonTimestamp & " ; " & " Dt Criacao: " & objUser.WhenCreated)
 			tempCN = objUser.CN
 			'  'Muda status da conta para desabilitada
 			'objUser.Put "userAccountControl", intUAC OR ADS_UF_ACCOUNTDISABLE
 			objUser.SetInfo
-			'Recupera referÍncia da OU para onde as contas desabilitadas ser„o movidas
+			'Recupera refer√™ncia da OU para onde as contas desabilitadas ser√£o movidas
 			OUContasDesabilitadas = "LDAP://ou=usuarios,ou=Contas Inativas,dc=secv,dc=net"
 			Set objOU = GetObject(ouContasDesabilitadas)
 			'Move a conta antiga para a OU destino
@@ -205,7 +205,7 @@ Set objDate = Nothing
 Set objList = Nothing
 Set objShell = Nothing
 
-WScript.Echo "O resultado da operaÁ„o est· no arquivo c:\temp\LogScriptContasUsuariosInativas.txt e tambÈm foi enviado por email para admredes@secv.net"
+WScript.Echo "O resultado da opera√ß√£o est√° no arquivo c:\temp\LogScriptContasUsuariosInativas.txt e tamb√©m foi enviado por email para admredes@secv.net"
 
 
 objTextFile.Close
@@ -214,8 +214,8 @@ objTextFile.Close
 'Set objEmail = CreateObject("CDO.Message")
 'objEmail.From = "admredes@secv.net"
 'objEmail.To = "admredes@secv.net"
-'objEmail.Subject = now() & " - Contas de usu·rios desabilitadas e movidas!!" 
-'objEmail.Textbody = objEmail.TextBody & "A lista de usu·rios movidos e desabilitados est· me anexo." & vbCrLf 
+'objEmail.Subject = now() & " - Contas de usu√°rios desabilitadas e movidas!!" 
+'objEmail.Textbody = objEmail.TextBody & "A lista de usu√°rios movidos e desabilitados est√° me anexo." & vbCrLf 
 'objEmail.TextBody = objEmail.TextBody & "As contas foram movidas para a OU Contas Inativas/Usuarios."
 'objEmail.AddAttachment "c:\temp\LogScriptContasUsuariosInativas.txt"
 'objEmail.Configuration.Fields.Item _
