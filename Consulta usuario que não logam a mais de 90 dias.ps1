@@ -1,0 +1,1 @@
+﻿Search-ADAccount -UsersOnly -AccountInactive -TimeSpan 90.00:00:00 | ?{$_.enabled -eq $True} | sort lastlogondate | select-object samaccountname, lastlogondate, name, distinguishedname, enabled | Export-Csv c:\temp\Users90.csv
