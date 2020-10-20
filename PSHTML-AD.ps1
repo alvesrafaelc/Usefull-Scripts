@@ -65,7 +65,7 @@ param (
 	#Location the report will be saved to
 
 	[Parameter(ValueFromPipeline = $true, HelpMessage = "Enter desired directory path to save; Default: C:\Automation\")]
-	[String]$ReportSavePath = "C:\Automation\",
+	[String]$ReportSavePath = "C:\",
 	#Find users that have not logged in X Amount of days, this sets the days
 
 	[Parameter(ValueFromPipeline = $true, HelpMessage = "Users that have not logged on in more than [X] days. amount of days; Default: 30")]
