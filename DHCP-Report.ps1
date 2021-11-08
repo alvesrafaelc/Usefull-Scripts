@@ -1,3 +1,4 @@
+# Script para uso em auditorias
 # Dynamically pulling the DHCP servers in a Active Directory domain
 # https://evotec.xyz/active-directory-dhcp-report-to-html-or-email-with-zero-html-knowledge/amp/
 $DHCP_Servers = Get-DhcpServerInDC | Sort-Object -Property DnsName

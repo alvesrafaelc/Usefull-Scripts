@@ -1,1 +1,1 @@
-﻿Get-ChildItem -Path "\\D:\aracaju\Publico" | Remove-Item -Recurse -Confirm:$false -Force
+﻿Get-ChildItem -Path "\\alfa\SULGIPE\Publico" | Remove-Item -Recurse -Confirm:$false -Force

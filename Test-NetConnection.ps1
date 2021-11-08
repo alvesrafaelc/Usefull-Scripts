@@ -1,1 +1,1 @@
-Test-NetConnection fd1.cesgranrio.com.br -port 123 -InformationLevel Quiet
+Test-NetConnection 191.235.65.220 -port 8888 -InformationLevel Quiet

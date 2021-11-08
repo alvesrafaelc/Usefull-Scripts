@@ -1,1 +1,1 @@
-search-adaccount -AccountInactive -TimeSpan 90.00:00:00 | FT Name,SamAccountName,LastLogonDate,ObjectClass -A
+search-adaccount -AccountInactive -TimeSpan 90.00:00:00 | Format-Table Name,SamAccountName,LastLogonDate,ObjectClass -A

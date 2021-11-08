@@ -1,0 +1,1 @@
+Get-ADObject -Properties mail, proxyAddresses -Filter {mail -eq "julio.ferreira@araforros.com.br" -or proxyAddresses -eq "smtp:julio.ferreira@araforros.com.br"} 
