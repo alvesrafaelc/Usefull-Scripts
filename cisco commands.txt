@@ -1,0 +1,137 @@
+Here is a list of basic CLI commands which will help you manage your Dell PowerConnect series switches…
+
+Show
+/// Port VLAN details
+> show interfaces switchport gigabitethernet 1/0/1
+/// Port channel VLAN details
+> show interfaces switchport port-channel 1
+/// Port configuration
+> show interfaces configuration gigabitethernet 1/0/1
+/// Port channel configuration
+> show interfaces configuration port-channel 1
+/// VLAN 100 details
+> show vlan tag 100
+/// Display static routes
+> show ip route static
+/// Stack info
+> show switch
+/// Show all access-lists
+> show access-lists
+
+
+Find physical port using MAC
+/// This will return a port #
+> sh mac address-table address d4:be:d9:e8:d0:8d
+
+Config
+All config commands must be run under Global Config Mode.
+
+/// Enable Privileged EXEC mode
+> enable
+/// Enter Global Configuration mode
+> config
+
+Create VLAN
+/ Create vlan
+> vlan 10
+> name descricao da vlan
+
+Select Interface
+/// Select one port
+> interface gigabitethernet 1/0/1
+
+Select Interface range
+/// Select a range of ports
+> interface range gigabitethernet 1/0/1-24
+
+Port VLAN Modes
+General — The port belongs to VLANs, and each VLAN is user-defined as tagged or untagged (full 802.1Q mode).
+
+PVID (1-4095) — Enter a VLAN ID to be added to untagged packets. The possible values are 1-4095. VLAN 4095 is defined according to standard and industry practice as the discard VLAN. Packets classified to the discard VLAN are dropped.
+
+/// Select interface
+> interface gigabitethernet 1/0/1
+/// Change VLAN mode to general
+> switchport mode general
+/// Set native VLAN to 100 (U)
+> switchport general pvid vlan 100
+/// Add VLAN 101 as untagged
+> switchport general allowed vlan add 101 untagged
+/// Add VLAN 102 as tagged
+> switchport general allowed vlan add 102 tagged
+
+Access — The port belongs to a single untagged VLAN. When a port is in Access mode, the packet types that are accepted on the port cannot be designated. Ingress filtering cannot be enabled/disabled on an access port.
+
+/// Select interface
+> interface gigabitethernet 1/0/1
+/// Change VLAN mode to access
+> switchport mode access
+/// Make port a member of VLAN 100 (U)
+> switchport access vlan 100
+
+Trunk — The port belongs to VLANs on which all ports are tagged (except for one port that can be untagged).
+
+/// Select interface
+> interface gigabitethernet 1/0/1
+/// Change VLAN mode to trunk
+> switchport mode trunk
+/// Set all VLANs Allowed - Trafegar todas vlans na interface
+> switchport trunk allowed vlan 1-9
+/// Set native VLAN to 100 (U), only one untagged VLAN allowed
+> switchport trunk native vlan 100
+/// Make port a member of VLAN 102 (T)
+> switchport trunk allowed vlan 102
+
+Set port IP address and mask
+/// Set the IP address with mask
+> ip address 1.1.1.1 255.255.255.0
+
+Create a port channel
+/// Create port-channel 1
+> interface port-channel 1
+
+Add ports to port channel
+/// Select interface
+> interface gigabitethernet 1/0/1
+/// Add port 1 to port-channel 1
+> channel-group 1
+
+Set route
+/// Set a static route
+> ip route 1.1.1.1 (dest.) 255.255.255.0 (mask) 2.2.2.2 (gw)
+
+Enabling PortFast
+/// Select interface
+> interface ethernet 1/0/1
+/// Enable portfast on port
+> spanning-tree portfast
+
+/// Select interface range
+> interface range ethernet all
+/// Enable portfast on range
+> spanning-tree portfast
+
+Create a IP based Access-List
+/// Create access-list ACL1
+> ip access-list extended ACL1
+/// Deny 1.10 access to 1.1
+> deny ip 10.40.1.10 255.255.255.0 10.40.1.1 255.255.255.0
+/// Permit everything else
+> permit ip any any
+/// Select interface
+> interface gigabitethernet 1/0/1
+/// Apply ACL to port
+> service-acl input (output) ACL1
+
+Using TFTP download software and boot code to stacked switches
+Copy software first, then copy the boot software.
+/// Copy software to all switches
+> copy tftp://{tftp address}/{file name} unit://*/image
+/// Copy boot software to all switches
+> copy tftp://{tftp address}/{file name} unit://*/boot
+/// Verify active image
+> show bootvar
+/// Activate new image on all switches
+> boot system image-1 all
+/// Reload stack
+> reload

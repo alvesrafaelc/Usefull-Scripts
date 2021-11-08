@@ -1,0 +1,40 @@
+w32tm /query /configuration
+net stop w32time
+w32tm /config /syncfromflags:manual /manualpeerlist:"a.st1.ntp.br,0x01 b.st1.ntp.br,0x01" /reliable:yes /update
+net start w32time
+w32tm /resync
+
+The NTPServer flags have 4 possible values:
+
+• 0x01 SpecialInterval
+• 0x02 UseAsFallbackOnly
+• 0x04 SymmatricActive
+• 0x08 Client
+
+And the NTP Server flags can be combined together, for example:
+0x9 = SpecialInterval + Client
+0xa = UseAsFallbackOnly + Client
+
+w32tm /query /configuration
+w32tm /query /status
+
+
+-----------
+net stop w32time
+
+w32tm /config /syncfromflags:manual /manualpeerlist:"pool.ntp.br" /reliable:yes /update
+
+w32tm /config /reliable:yes
+
+net start w32time
+
+w32tm /resync
+
+
+
+
+
+---------------
+
+w32tm /config /syncfromflags:manual /manualpeerlist:a.ntp.br /reliable:yes /update
+w32tm.exe /config /manualpeerlist:"a.ntp.br, b.ntp.br" /syncfromflags:manual /reliable:YES /update

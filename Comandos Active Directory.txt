@@ -1,0 +1,88 @@
+Comandos Active Directory
+
+dcdiag /v /c /d /e > C:\temp\DCDiag_Mensal_Julho_2021.txt
+
+repadmin /showrepl > C:\temp\Repadimin_Mensal_Julho_2021.txt
+
+---------------------------------------------------------------------------------
+
+Checar RID Master:
+Dcdiag.exe /TEST:RidManager /v | find /i “Available RID Pool for the Domain”
+
+---------------------------------------------------------------------------------
+
+Robocopy
+
+robocopy \\caminhoorigem \\192.168.3.204\D$ /E /COPYALL /V /NP /ETA /LOG:c:\robocopy.log
+
+robocopy \\192.0.0.25\e$\ \\192.0.0.7\e$\ /E /COPYALL /V /R:1 /W:2 /NP /ETA /LOG:c:\robocopy.log
+
+robocopy "I:" "E:\BACKUP-SETORES-17-12-2020" *.* /E /V /R:1 /W:2 /NP /ETA /LOG:c:\robocopy.log /MT:32 /XD "System Volume Information" "$RECYCLE.BIN" /XF "thumbs.db" /A-:SH
+
+---------------------------------------------------------------------------------
+
+Migração de Serviço DHCP - 2008, 2012, 2016
+
+netsh dhcp server export c:\dhcpbackup.txt all
+
+netsh dhcp server import c:\dhcpbackup.txt all
+
+---------------------------------------------------------------------------------
+
+Comando para ter detalhadamente nome de usuário e IP de computador que fazer consultas no AD:
+
+Reg Add HKLM\SYSTEM\CurrentControlSet\Services\NTDS\Diagnostics /v "16 LDAP Interface Events" /t REG_DWORD /d 2
+
+---------------------------------------------------------------------------------
+
+Comando quando em Propriedades do DNS, Interfaces está em branco (Sem a interface de rede).
+
+dnscmd nomedoservidor /resetlistenaddresses
+
+---------------------------------------------------------------------------------
+
+Checar se politicas de auditoria realmente estão sendo aplicadas:
+
+auditpol.exe /get /category:*
+
+---------------------------------------------------------------------------------
+
+Mudar a senha do Restore Mode do Directory Services
+
+ntdsutil
+set DSRM password
+reset password on server nomedoservidor
+
+INICIANDO O DOMAIN CONTROLLER NO MODO RESTORE
+Ligue o servidor e pressione a tecla “F8“, até que seja apresentada a tela abaixo, selecione a opção “Directory Services Restore Mode“.
+
+User: Administrador local
+PAssword: DSRM_password
+
+---------------------------------------------------------------------------------
+
+Checar erros no sistea operacional
+
+sfc /scannow
+
+-------------------------------------------------------------
+File server Powershell apagar pasta publica
+
+https://community.spiceworks.com/how_to/17736-run-powershell-scripts-from-task-scheduler
+
+
+netsh dhcp server \\SRVCSH-04 scope 192.0.0.0 dump >c:\temp\dhcp.txt
+netsh exec c:\temp\dhcp2.txt 
+
+=====================================
+Restaurar relação de confiança
+
+Test-ComputerSecureChannel -credential <domain>\<admin> -Repair
+
+=====================================
+
+#powershell verificar qual logon server o computador cliente logou
+
+$env:LOGONSERVER
+
+#https://devblogs.microsoft.com/scripting/powertip-use-powershell-to-check-logon-server-for-client/
